@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
 }
@@ -14,6 +16,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Get the API keys from local.properties
+        val properties = Properties();
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        // Set API keys in BuildConfig
+        buildConfigField("String", "TMDB_BEARER_TOKEN", properties.getProperty("TMDB_BEARER_TOKEN"))
     }
 
     buildTypes {
@@ -27,6 +36,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -43,4 +53,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Retrofit & GSON
+    implementation("com.squareup.retrofit2:converter-gson:2.10.0")
+    implementation("com.squareup.retrofit2:retrofit:2.10.0")
 }

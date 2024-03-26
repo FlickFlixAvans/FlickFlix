@@ -3,5 +3,5 @@
     <!-- Selected state -->
     <item android:color="@color/imperial_red" android:state_checked="true" />
     <!-- Default state -->
-    <item android:color="@color/prussian_blue" />
+    <item android:color="@color/seasalt" />
 </selector>

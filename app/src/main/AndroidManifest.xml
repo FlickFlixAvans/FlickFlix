@@ -27,7 +27,11 @@
         <activity
             android:name=".ui.AuthenticateTMDBActivity"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

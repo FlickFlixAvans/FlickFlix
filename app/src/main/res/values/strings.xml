@@ -5,4 +5,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="sign_in_with_tmdb">Sign in with TMDB</string>
     <string name="tdm_signin_explanation">In order to use the list functionalities, please sign in with your The Movie DB account.</string>
+    <string name="title_lists">Lists</string>
+    <string name="title_settings">Settings</string>
 </resources>

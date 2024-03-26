@@ -21,20 +21,16 @@ public class RetrofitClient {
      * Add the API Key as Header to the HTTP Client
      */
     private static OkHttpClient getHttpClient() {
-        OkHttpClient httpClient = new OkHttpClient();
-        httpClient.networkInterceptors().add(new Interceptor() {
+        return new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @NonNull
             @Override
             public Response intercept(@NonNull Chain chain) throws IOException {
-                Request.Builder requestBuilder = chain.request().newBuilder();
-                String bearerToken = "Bearer " + BuildConfig.TMDB_BEARER_TOKEN;
-                requestBuilder.header("Authorization", bearerToken);
-
-                return chain.proceed(requestBuilder.build());
+                Request newRequest  = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + BuildConfig.TMDB_BEARER_TOKEN)
+                        .build();
+                return chain.proceed(newRequest);
             }
-        });
-
-        return httpClient;
+        }).build();
     }
 
     public static Retrofit getInstance() {

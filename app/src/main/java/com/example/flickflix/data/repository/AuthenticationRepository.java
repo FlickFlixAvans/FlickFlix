@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.flickflix.data.ApiService;
 import com.example.flickflix.data.RetrofitClient;
-import com.example.flickflix.data.response.RequestSessionResponse;
+import com.example.flickflix.data.response.SessionResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
 
 import retrofit2.Call;
@@ -47,9 +47,9 @@ public class AuthenticationRepository {
 
     public LiveData<String> createSession(String requestToken) {
         MutableLiveData<String> sessionLiveData = new MutableLiveData<>();
-        apiService.createSession(requestToken).enqueue(new Callback<RequestSessionResponse>() {
+        apiService.createSession(requestToken).enqueue(new Callback<SessionResponse>() {
             @Override
-            public void onResponse(Call<RequestSessionResponse> call, Response<RequestSessionResponse> response) {
+            public void onResponse(Call<SessionResponse> call, Response<SessionResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Session created successfully
                     sessionLiveData.setValue(response.body().getSessionId());
@@ -59,7 +59,7 @@ public class AuthenticationRepository {
             }
 
             @Override
-            public void onFailure(Call<RequestSessionResponse> call, Throwable throwable) {
+            public void onFailure(Call<SessionResponse> call, Throwable throwable) {
                 Log.i(TAG, "Error during session creation: " + throwable.getMessage());
 
                 sessionLiveData.setValue(null);

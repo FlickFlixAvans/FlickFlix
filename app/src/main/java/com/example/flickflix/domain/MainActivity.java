@@ -1,7 +1,8 @@
-package com.example.flickflix;
+package com.example.flickflix.domain;
 
 import android.os.Bundle;
 
+import com.example.flickflix.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

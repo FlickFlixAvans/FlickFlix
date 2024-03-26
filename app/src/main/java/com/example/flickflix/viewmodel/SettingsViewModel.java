@@ -1,4 +1,4 @@
-package com.example.flickflix.ui.settings;
+package com.example.flickflix.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

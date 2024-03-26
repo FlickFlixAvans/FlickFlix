@@ -1,4 +1,7 @@
-package com.example.flickflix.data.repository;
+package com.example.flickflix.data;
+
+import com.example.flickflix.data.response.RequestSessionResponse;
+import com.example.flickflix.data.response.RequestTokenResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,16 +1,16 @@
-package com.example.flickflix.ui.lists;
+package com.example.flickflix.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ListsViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public ListsViewModel() {
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is lists fragment");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {

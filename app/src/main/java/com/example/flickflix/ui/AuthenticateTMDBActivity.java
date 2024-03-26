@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.repository.SharedPreferencesManager;
+import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.viewmodel.AuthenticationViewModel;
 
 import java.net.URI;

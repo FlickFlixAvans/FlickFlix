@@ -1,4 +1,4 @@
-package com.example.flickflix.ui.home;
+package com.example.flickflix.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.flickflix.R;
 import com.example.flickflix.databinding.FragmentHomeBinding;
 import com.example.flickflix.ui.AuthenticateTMDBActivity;
+import com.example.flickflix.viewmodel.HomeViewModel;
 
 public class HomeFragment extends Fragment {
 

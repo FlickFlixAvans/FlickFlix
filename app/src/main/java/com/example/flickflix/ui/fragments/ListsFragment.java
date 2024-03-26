@@ -1,30 +1,28 @@
-package com.example.flickflix.ui.settings;
+package com.example.flickflix.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.flickflix.databinding.FragmentSettingsBinding;
+import com.example.flickflix.databinding.FragmentListsBinding;
+import com.example.flickflix.viewmodel.ListsViewModel;
 
-public class SettingsFragment extends Fragment {
+public class ListsFragment extends Fragment {
 
-    private FragmentSettingsBinding binding;
+    private FragmentListsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
+        ListsViewModel listsViewModel =
+                new ViewModelProvider(this).get(ListsViewModel.class);
 
-        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        binding = FragmentListsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
         return root;
     }
 

@@ -1,4 +1,4 @@
-package com.example.flickflix.data.repository;
+package com.example.flickflix.data.response;
 
 import com.google.gson.annotations.SerializedName;
 

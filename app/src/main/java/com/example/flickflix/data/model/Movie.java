@@ -2,7 +2,10 @@ package com.example.flickflix.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Movie {
     @SerializedName("id")
@@ -12,7 +15,7 @@ public class Movie {
     @SerializedName("overview")
     private String overview;
     @SerializedName("release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @SerializedName("adult")
     private Boolean adult;
     @SerializedName("poster_path")
@@ -50,11 +53,11 @@ public class Movie {
         this.overview = overview;
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -106,4 +109,17 @@ public class Movie {
         this.genreIds = genreIds;
     }
 
+    public String getFullPosterPath() {
+        return "https://image.tmdb.org/t/p/w200" + getPosterPath();
+    }
+
+    public String getFormattedVoteAverage() {
+        return String.format(Locale.US, "%.1f", getVoteAverage());
+    }
+
+    public String getFormattedReleaseDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        
+        return dateFormat.format(getReleaseDate());
+    }
 }

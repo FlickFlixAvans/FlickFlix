@@ -1,64 +1,159 @@
 package com.example.flickflix.ui.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
 import com.example.flickflix.data.model.Movie;
-import com.example.flickflix.viewmodel.MovieListViewHolder;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListViewHolder> {
-
-    private List<Movie> mMovieList;
-
-    public List<Movie> getmMovieList() {
-        return mMovieList;
-    }
-
-    private LayoutInflater mInflater;
-
-    public MovieListAdapter(Context context, List<Movie> mMovieList) {
-        mInflater = LayoutInflater.from(context);
-        this.mMovieList = mMovieList;
-    }
-
-    public void setmMovieList(List<Movie> movies) {
-        this.mMovieList = movies;
-        this.notifyDataSetChanged();
-    }
+public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int ITEM = 0;
+    private static final int LOADING = 1;
+    private List<Movie> results = new ArrayList<>();
+    private Boolean isLoadingAdded = false;
 
     @NonNull
     @Override
-    public MovieListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mItemView = mInflater.inflate(R.layout.movie_list_item, parent, false);
-        return new MovieListViewHolder(mItemView, this);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        switch (viewType) {
+            case ITEM:
+                // Return the Movie ViewHolder
+                View mItemView = inflater.inflate(R.layout.movie_list_item, parent, false);
+                viewHolder = new MovieVH(mItemView);
+                break;
+            case LOADING:
+                // Return the Loading ViewHolder
+                View mitemview = inflater.inflate(R.layout.movie_item_progress, parent, false);
+                viewHolder = new LoadingVH(mitemview);
+                break;
+        }
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieListViewHolder holder, int position) {
-        Movie mMovie = mMovieList.get(position);
-        holder.tvMovieTitle.setText(mMovie.getTitle());
-        holder.tvMovieGenre.setText(mMovie.getGenre());
-        holder.tvMovieReleaseDate.setText(mMovie.getReleaseDate());
-        holder.tvMovieRating.setText(mMovie.getRating());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Movie mMovie = results.get(position);
 
-        String url = mMovie.getPosterPath();
-        Picasso.get().load(url).into(holder.imgMoviePoster);
+        switch (getItemViewType(position)) {
+            case ITEM:
+                final MovieVH movieVH = (MovieVH) holder;
+
+                // Load the info in the UI
+                movieVH.tvMovieTitle.setText(mMovie.getTitle());
+                movieVH.tvMovieGenre.setText(""); // TODO: Add genres
+
+                String movieRating = mMovie.getFormattedVoteAverage() + "/10";
+                movieVH.tvMovieRating.setText(movieRating);
+                movieVH.tvMovieReleaseDate.setText(mMovie.getFormattedReleaseDate());
+
+                // Load image using Picasso
+                String url = mMovie.getFullPosterPath();
+                Picasso.get().load(url).into(movieVH.imgMoviePoster);
+
+                break;
+            case LOADING:
+                // Do nothing
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (mMovieList != null) {
-            return mMovieList.size();
-        } else return 0;
+        return results == null ? 0 : results.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == results.size() - 1 && isLoadingAdded) ? 1 : 0;
+    }
+
+    /**
+     * Helpers
+     */
+    public void add(Movie movie) {
+        results.add(movie);
+        notifyItemInserted(results.size() - 1);
+    }
+
+    public void addAll(List<Movie> movies) {
+        for (Movie movie : movies) {
+            add(movie);
+        }
+    }
+
+    public void addLoadingFooter() {
+        isLoadingAdded = true;
+        add(new Movie());
+    }
+
+    public void removeLoadingFooter() {
+        isLoadingAdded = false;
+
+        int position = results.size() - 1;
+        Movie movie = getItem(position);
+
+        if (movie != null) {
+            results.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public Movie getItem(int position) {
+        return results.get(position);
+    }
+
+    /**
+     * View Holders
+     */
+    protected static class MovieVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public ImageView imgMoviePoster;
+        public TextView tvMovieTitle;
+        public TextView tvMovieGenre;
+        public TextView tvMovieReleaseDate;
+        public TextView tvMovieRating;
+
+        public MovieVH(View itemView) {
+            super(itemView);
+
+            imgMoviePoster = itemView.findViewById(R.id.movie_list_image_view);
+            tvMovieTitle = itemView.findViewById(R.id.movie_list_movie_title);
+            tvMovieGenre = itemView.findViewById(R.id.movie_list_movie_genre);
+            tvMovieReleaseDate = itemView.findViewById(R.id.movie_list_release_date);
+            tvMovieRating = itemView.findViewById(R.id.movie_list_rating);
+            itemView.setOnClickListener(this);
+        }
+
+        public void onClick(View view) {
+            /*int position = getAdapterPosition();
+
+            Movie mMovie = mMovieList.get(position);
+
+            Intent intent = new Intent(view.getContext(), MovieDetailActivity.class);
+
+            intent.putExtra("added_movie", mMovie);
+
+            view.getContext().startActivity(intent);*/
+        }
+    }
+
+    protected static class LoadingVH extends RecyclerView.ViewHolder {
+        public LoadingVH(View itemView) {
+            super(itemView);
+        }
     }
 }

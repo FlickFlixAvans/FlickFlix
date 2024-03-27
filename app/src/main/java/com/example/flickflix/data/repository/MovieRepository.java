@@ -24,13 +24,13 @@ public class MovieRepository {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
     }
 
-    public LiveData<List<Movie>> getNowPlayingMovies(Integer page) {
-        MutableLiveData<List<Movie>> moviesLiveData = new MutableLiveData<>();
+    public LiveData<MovieResponse> getNowPlayingMovies(Integer page) {
+        MutableLiveData<MovieResponse> moviesLiveData = new MutableLiveData<>();
         apiService.getNowPlayingMovies(page).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    moviesLiveData.setValue(response.body().getResults());
+                    moviesLiveData.setValue(response.body());
                 } else {
                     moviesLiveData.setValue(null);
                 }

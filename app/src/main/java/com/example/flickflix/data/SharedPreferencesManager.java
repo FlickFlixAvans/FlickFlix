@@ -28,5 +28,6 @@ public class SharedPreferencesManager {
 
     public void deleteSession() {
         editor.remove("SESSION_ID");
+        editor.commit();
     }
 }

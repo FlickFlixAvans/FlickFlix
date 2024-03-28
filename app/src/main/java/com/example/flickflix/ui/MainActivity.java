@@ -1,5 +1,6 @@
-package com.example.flickflix.domain;
+package com.example.flickflix.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +10,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.flickflix.R;
+import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.databinding.ActivityMainBinding;
+import com.example.flickflix.ui.AuthenticateTMDBActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,5 +35,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        // Check if user is logged in
+        checkLoggedIn();
+    }
+
+    private void checkLoggedIn() {
+        SharedPreferencesManager manager = new SharedPreferencesManager(this);
+        boolean hasSessionId = manager.getSessionId() != null;
+
+        if (!hasSessionId) {
+            Intent intent = new Intent(this, AuthenticateTMDBActivity.class);
+            startActivity(intent);
+        }
     }
 }

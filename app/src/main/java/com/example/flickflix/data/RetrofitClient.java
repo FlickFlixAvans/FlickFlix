@@ -25,7 +25,7 @@ public class RetrofitClient {
             @NonNull
             @Override
             public Response intercept(@NonNull Chain chain) throws IOException {
-                Request newRequest  = chain.request().newBuilder()
+                Request newRequest = chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer " + BuildConfig.TMDB_BEARER_TOKEN)
                         .build();
                 return chain.proceed(newRequest);

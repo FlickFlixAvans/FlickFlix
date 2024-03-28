@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.flickflix.data.ApiService;
 import com.example.flickflix.data.RetrofitClient;
-import com.example.flickflix.data.model.Movie;
 import com.example.flickflix.data.response.MovieResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

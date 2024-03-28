@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
+import com.example.flickflix.data.model.Genre;
 import com.example.flickflix.data.model.Movie;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,7 +20,8 @@ import java.util.List;
 public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM = 0;
     private static final int LOADING = 1;
-    private List<Movie> results = new ArrayList<>();
+    private final List<Movie> results = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
     private Boolean isLoadingAdded = false;
 
     @NonNull
@@ -53,15 +54,17 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case ITEM:
                 final MovieVH movieVH = (MovieVH) holder;
 
-                // Load the info in the UI
+                // Show the info in the UI
                 movieVH.tvMovieTitle.setText(mMovie.getTitle());
-                movieVH.tvMovieGenre.setText(""); // TODO: Add genres
-
                 String movieRating = mMovie.getFormattedVoteAverage() + "/10";
                 movieVH.tvMovieRating.setText(movieRating);
                 movieVH.tvMovieReleaseDate.setText(mMovie.getFormattedReleaseDate());
 
-                // Load image using Picasso
+                // Get genres & show in UI
+                String genres = getGenresForMovie(mMovie);
+                movieVH.tvMovieGenre.setText(genres);
+
+                // Load movie poster using Picasso
                 String url = mMovie.getFullPosterPath();
                 Picasso.get().load(url).into(movieVH.imgMoviePoster);
 
@@ -80,6 +83,41 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         return (position == results.size() - 1 && isLoadingAdded) ? 1 : 0;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    /**
+     * Get the genres for a movie in a text representative way
+     */
+    private String getGenresForMovie(Movie movie) {
+        StringBuilder genreStringBuilder = new StringBuilder();
+
+        if (movie.getGenreIds() != null && !movie.getGenreIds().isEmpty()) {
+            int size = movie.getGenreIds().size();
+            for (int i = 0; i < size; i++) {
+                int genreId = movie.getGenreIds().get(i);
+                for (Genre genre : genres) {
+                    if (genre.getId() == genreId) {
+                        if (genreStringBuilder.length() > 0) {
+                            // Add an "," or "and" between the genres
+                            if (i == size - 1 && size > 1) {
+                                genreStringBuilder.append(" en ");
+                            } else {
+                                genreStringBuilder.append(", ");
+                            }
+                        }
+
+                        genreStringBuilder.append(genre.getName());
+                        break;
+                    }
+                }
+            }
+        }
+
+        return genreStringBuilder.toString();
     }
 
     /**

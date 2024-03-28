@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.flickflix.data.ApiService;
 import com.example.flickflix.data.RetrofitClient;
-import com.example.flickflix.data.response.SessionResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
+import com.example.flickflix.data.response.SessionResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

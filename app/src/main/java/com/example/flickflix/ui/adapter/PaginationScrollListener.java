@@ -10,9 +10,6 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
     private static final String TAG = PaginationScrollListener.class.getSimpleName();
     LinearLayoutManager layoutManager;
 
-    /**
-     * Supporting only LinearLayoutManager for now.
-     */
     public PaginationScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
@@ -28,8 +25,8 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
         if (!isLoading() && !isLastPage()) {
             if (
                     (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                    && firstVisibleItemPosition >= 0
-                    && totalItemCount <= getTotalPageCount()
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount <= getTotalPageCount()
             ) {
                 Log.i(TAG, "Loading more items into the scroll view");
 

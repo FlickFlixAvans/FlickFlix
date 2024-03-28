@@ -79,7 +79,7 @@ public class AuthenticateTMDBActivity extends AppCompatActivity {
 
                             Log.i(TAG, "Saved session in the shared preferences");
 
-                            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();;
+                            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(this, "Failed to create session", Toast.LENGTH_SHORT).show();
                         }

@@ -20,6 +20,7 @@ import com.example.flickflix.data.model.Movie;
 import com.example.flickflix.databinding.FragmentHomeBinding;
 import com.example.flickflix.ui.adapter.MovieListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
+import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.HomeViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
 
@@ -29,7 +30,8 @@ public class HomeFragment extends Fragment {
     private static final String TAG = PaginationScrollListener.class.getSimpleName();
     private FragmentHomeBinding binding;
 
-    MovieViewModel viewModel;
+    MovieViewModel movieViewModel;
+    GenreViewModel genreViewModel;
     MovieListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
@@ -45,8 +47,17 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Init
-        viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        // Init view models
+        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
+
+        // Observe genres LiveData from ViewModel
+        genreViewModel.getGenres().observe(getViewLifecycleOwner(), genreResponse -> {
+            adapter.setGenres(genreResponse.getGenres());
+            adapter.notifyDataSetChanged();
+        });
+
+        // Create adapter
         adapter = new MovieListAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         currentPage = PAGE_START;
@@ -102,7 +113,7 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "Loading movies page " + currentPage);
 
         // Fetch the now playing movies from the API
-        viewModel.getNowPlayingMovies(currentPage).observe(getViewLifecycleOwner(), movieResponse -> {
+        movieViewModel.getNowPlayingMovies(currentPage).observe(getViewLifecycleOwner(), movieResponse -> {
             if (movieResponse != null) {
                 adapter.removeLoadingFooter();
                 isLoading = false;

@@ -119,7 +119,7 @@ public class Movie {
 
     public String getFormattedReleaseDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        
+
         return dateFormat.format(getReleaseDate());
     }
 }

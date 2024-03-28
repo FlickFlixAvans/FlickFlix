@@ -109,14 +109,23 @@ public class Movie {
         this.genreIds = genreIds;
     }
 
+    /**
+     * Get the full URL to the poster image
+     */
     public String getFullPosterPath() {
         return "https://image.tmdb.org/t/p/w200" + getPosterPath();
     }
 
+    /**
+     * Round vote average to one decimal place
+     */
     public String getFormattedVoteAverage() {
         return String.format(Locale.US, "%.1f", getVoteAverage());
     }
 
+    /**
+     * Format release date to day-month-year
+     */
     public String getFormattedReleaseDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 

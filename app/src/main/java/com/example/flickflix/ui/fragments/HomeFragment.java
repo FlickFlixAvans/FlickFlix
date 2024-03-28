@@ -21,7 +21,6 @@ import com.example.flickflix.databinding.FragmentHomeBinding;
 import com.example.flickflix.ui.adapter.MovieListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
 import com.example.flickflix.viewmodel.GenreViewModel;
-import com.example.flickflix.viewmodel.HomeViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
 
 import java.util.List;
@@ -43,7 +42,6 @@ public class HomeFragment extends Fragment {
     private int currentPage;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

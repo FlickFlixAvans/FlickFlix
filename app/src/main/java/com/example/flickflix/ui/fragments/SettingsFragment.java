@@ -11,13 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.flickflix.R;
 import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.databinding.FragmentSettingsBinding;
 import com.example.flickflix.ui.AuthenticateTMDBActivity;
-import com.example.flickflix.viewmodel.SettingsViewModel;
 
 public class SettingsFragment extends Fragment {
 
@@ -26,8 +24,6 @@ public class SettingsFragment extends Fragment {
     Button btnLogout;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
-
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 

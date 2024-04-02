@@ -1,13 +1,14 @@
-package com.example.flickflix.data.model;
+package com.example.flickflix.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Movie {
+public class Movie implements Serializable {
     @SerializedName("id")
     private Integer id;
     @SerializedName("title")
@@ -28,6 +29,10 @@ public class Movie {
     private Integer voteCount;
     @SerializedName("genre_ids")
     private List<Integer> genreIds;
+    @SerializedName("backdrop_path")
+    private String backdropPath;
+    @SerializedName("runtime")
+    private int runtime;
 
     public Integer getId() {
         return id;
@@ -109,11 +114,27 @@ public class Movie {
         this.genreIds = genreIds;
     }
 
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public int getRuntime() { return runtime; }
+
+    public void setRuntime(int runtime) { this.runtime = runtime; }
+
     /**
      * Get the full URL to the poster image
      */
     public String getFullPosterPath() {
         return "https://image.tmdb.org/t/p/w200" + getPosterPath();
+    }
+
+    public String getFullBackdropPath() {
+        return "https://image.tmdb.org/t/p/w500" + getBackdropPath();
     }
 
     /**

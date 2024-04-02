@@ -1,5 +1,6 @@
 package com.example.flickflix.data;
 
+import com.example.flickflix.model.Movie;
 import com.example.flickflix.data.response.GenreResponse;
 import com.example.flickflix.data.response.MovieResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
@@ -7,6 +8,7 @@ import com.example.flickflix.data.response.SessionResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -21,4 +23,7 @@ public interface ApiService {
 
     @GET("genre/movie/list")
     Call<GenreResponse> getGenres();
+
+    @GET("movie/{movie_id}")
+    Call<Movie> getMovie(@Path("movie_id") Integer movieId);
 }

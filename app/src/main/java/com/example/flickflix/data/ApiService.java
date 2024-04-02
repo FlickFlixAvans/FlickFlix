@@ -21,4 +21,5 @@ public interface ApiService {
 
     @GET("genre/movie/list")
     Call<GenreResponse> getGenres();
+
 }

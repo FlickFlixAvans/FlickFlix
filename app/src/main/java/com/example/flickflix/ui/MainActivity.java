@@ -1,6 +1,7 @@
 package com.example.flickflix.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if user is logged in
         checkLoggedIn();
+
+        sharedPreferences = getSharedPreferences("SHARED_PREF", MODE_PRIVATE);
     }
 
     private void checkLoggedIn() {

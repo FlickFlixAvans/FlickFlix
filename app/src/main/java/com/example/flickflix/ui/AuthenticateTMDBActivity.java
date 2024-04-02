@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.repository.SharedPreferencesManager;
+import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.viewmodel.AuthenticationViewModel;
 
 import java.net.URI;
@@ -74,10 +74,17 @@ public class AuthenticateTMDBActivity extends AppCompatActivity {
                     // Create session & store in shared preferences
                     viewModel.createSession(requestToken).observe(this, sessionId -> {
                         if (sessionId != null) {
+                            // Store the session id in shared preferences
                             SharedPreferencesManager manager = new SharedPreferencesManager(this);
                             manager.saveSession(sessionId);
 
                             Log.i(TAG, "Saved session in the shared preferences");
+
+                            Toast.makeText(this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+
+                            // Redirect to main activity
+                            Intent mainIntent = new Intent(this, MainActivity.class);
+                            startActivity(mainIntent);
                         } else {
                             Toast.makeText(this, "Failed to create session", Toast.LENGTH_SHORT).show();
                         }

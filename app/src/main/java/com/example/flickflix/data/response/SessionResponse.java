@@ -1,8 +1,8 @@
-package com.example.flickflix.data.repository;
+package com.example.flickflix.data.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RequestSessionResponse {
+public class SessionResponse {
     @SerializedName("success")
     private boolean success;
     @SerializedName("session_id")

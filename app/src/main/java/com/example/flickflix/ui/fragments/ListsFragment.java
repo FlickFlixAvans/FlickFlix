@@ -1,14 +1,12 @@
-package com.example.flickflix.ui.lists;
+package com.example.flickflix.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.flickflix.databinding.FragmentListsBinding;
 
@@ -16,13 +14,10 @@ public class ListsFragment extends Fragment {
 
     private FragmentListsBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        ListsViewModel listsViewModel =
-                new ViewModelProvider(this).get(ListsViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentListsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         return root;
     }
 

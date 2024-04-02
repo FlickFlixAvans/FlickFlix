@@ -1,4 +1,4 @@
-package com.example.flickflix.data.repository;
+package com.example.flickflix.data;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,5 +28,6 @@ public class SharedPreferencesManager {
 
     public void deleteSession() {
         editor.remove("SESSION_ID");
+        editor.commit();
     }
 }

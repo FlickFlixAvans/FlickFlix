@@ -59,4 +59,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.10.0")
     // Browser
     implementation("androidx.browser:browser:1.8.0")
+    // Picasso
+    implementation("com.squareup.picasso:picasso:2.71828")
 }

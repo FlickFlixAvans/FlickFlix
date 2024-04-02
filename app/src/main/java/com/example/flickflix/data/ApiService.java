@@ -1,6 +1,7 @@
 package com.example.flickflix.data;
 
 import com.example.flickflix.data.response.GenreResponse;
+import com.example.flickflix.data.response.ListResponse;
 import com.example.flickflix.data.response.MovieResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
 import com.example.flickflix.data.response.SessionResponse;
@@ -21,4 +22,7 @@ public interface ApiService {
 
     @GET("genre/movie/list")
     Call<GenreResponse> getGenres();
+
+    @GET("account/{account_object_id}/lists")
+    Call<ListResponse> getLists();
 }

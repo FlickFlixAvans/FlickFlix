@@ -46,11 +46,12 @@ public class SettingsFragment extends Fragment {
             if (isChecked) {
                 // Switch is toggled on
                 Toast.makeText(getContext(), getString(R.string.switch_kids_friendly_on_toast), Toast.LENGTH_SHORT).show();
+                
 
-            } else {
+
+            } else  {
                 // Switch is toggled off
                 Toast.makeText(getContext(), getString(R.string.switch_kids_friendly_off_toast), Toast.LENGTH_SHORT).show();
-
             }
         });
 

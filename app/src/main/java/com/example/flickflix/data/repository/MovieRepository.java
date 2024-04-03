@@ -22,9 +22,9 @@ public class MovieRepository {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
     }
 
-    public LiveData<MovieResponse> getNowPlayingMovies(Integer page) {
+    public LiveData<MovieResponse> getMovies(Integer page, String sortBy, Boolean includeAdult, String withGenres) {
         MutableLiveData<MovieResponse> moviesLiveData = new MutableLiveData<>();
-        apiService.getNowPlayingMovies(page).enqueue(new Callback<MovieResponse>() {
+        apiService.getMovies(page, sortBy, includeAdult, withGenres).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

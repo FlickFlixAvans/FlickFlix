@@ -5,6 +5,16 @@
     <string name="tdm_signin_explanation">Log in met jouw The Movie DB account om deze app te gebruiken.</string>
     <string name="title_lists">Lijsten</string>
     <string name="title_settings">Settings</string>
+    <string name="filters">Filters</string>
+    <string name="sorteer_op">Sorteer op</string>
+    <string name="titel_a_z">Titel (A-Z)</string>
+    <string name="titel_z_a">Titel (Z-A)</string>
+    <string name="release_datum">Release datum</string>
+    <string name="rating">Rating</string>
+    <string name="_18">18+</string>
+    <string name="populariteit">Populariteit</string>
+    <string name="genres">Genres</string>
+    <string name="opslaan">Opslaan</string>
     <string name="log_out">Uitloggen</string>
     <string name="banner">Banner</string>
     <string name="details">Details</string>

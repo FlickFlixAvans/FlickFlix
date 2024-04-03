@@ -23,6 +23,9 @@ import com.example.flickflix.model.Video;
 import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
 import com.example.flickflix.viewmodel.VideoViewModel;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     MovieViewModel movieViewModel;
     GenreViewModel genreViewModel;
     VideoViewModel videoViewModel;
+    TextView tvMovieTrailerTitle;
     private List<Genre> genres = new ArrayList<>();
     private List<Video> videos = new ArrayList<>();
     private Movie mShareMovie;
@@ -74,6 +78,34 @@ public class MovieDetailActivity extends AppCompatActivity {
             Picasso.get().load(movie.getFullBackdropPath()).into(imgMovieBanner);
             tvMovieDetails.setText(getMovieDetails(movie));
             tvMovieDescription.setText(movie.getOverview());
+        });
+
+        // Load YouTube video
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
+
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                videoViewModel.getVideos(mMovie.getId()).observe(MovieDetailActivity.this, videoResponse -> {
+                    videos = videoResponse.getVideos(mMovie.getId());
+                    if (!videos.isEmpty()) {
+                        String videoId = null;
+                        for (Video video : videos) {
+                            if (video.getOfficial() == true && video.getType().equals("Trailer")) {
+                                videoId = video.getKey();
+                                break;
+                            }
+                        }
+                        if(videoId == null) {
+                            youTubePlayerView.setVisibility(View.GONE);
+                            tvMovieTrailerTitle.findViewById(R.id.movie_detail_trailer_title);
+                            tvMovieTrailerTitle.setVisibility(View.GONE);
+                        }
+                        youTubePlayer.loadVideo(videoId, 0);
+                    }
+                });
+            }
         });
     }
 

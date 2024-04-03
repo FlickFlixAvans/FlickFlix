@@ -144,6 +144,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    public void clear() {
+        results.clear();
+        notifyDataSetChanged();
+    }
+
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Movie());

@@ -2,6 +2,7 @@ package com.example.flickflix.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,15 +26,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.model.Genre;
-import com.example.flickflix.data.model.Movie;
+import com.example.flickflix.model.Genre;
+import com.example.flickflix.model.Movie;
 import com.example.flickflix.databinding.FragmentHomeBinding;
+import com.example.flickflix.ui.MovieDetailActivity;
 import com.example.flickflix.ui.adapter.MovieListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
 import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +88,15 @@ public class HomeFragment extends Fragment {
         // Create adapter
         adapter = new MovieListAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
+        adapter.setOnClickListener(new MovieListAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, Movie mMovie) {
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                intent.putExtra("added_movie", mMovie);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }

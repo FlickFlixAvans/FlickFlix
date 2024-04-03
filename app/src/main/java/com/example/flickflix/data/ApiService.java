@@ -17,7 +17,7 @@ public interface ApiService {
     Call<SessionResponse> createSession(@Query("request_token") String requestToken);
 
     @GET("discover/movie")
-    Call<MovieResponse> getMovies(@Query("page") Integer page, @Query("sort_by") String sortBy, @Query("include_adult") Boolean includeAdult);
+    Call<MovieResponse> getMovies(@Query("page") Integer page, @Query("sort_by") String sortBy, @Query("include_adult") Boolean includeAdult, @Query("with_genres") String withGenres);
 
     @GET("genre/movie/list")
     Call<GenreResponse> getGenres();

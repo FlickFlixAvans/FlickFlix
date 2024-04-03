@@ -1,5 +1,6 @@
 package com.example.flickflix.ui.fragments;
 
+import android.content.SharedPreferences;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -173,6 +174,15 @@ public class HomeFragment extends Fragment {
         // Filters
         checkbox18 = view.findViewById(R.id.cb_18);
         checkbox18.setOnCheckedChangeListener((buttonView, isChecked) -> includeAdult = isChecked);
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", 0);
+        boolean kidsFriendly = sharedPreferences.getBoolean("switch_kids_friendly", false);
+
+        // Hides 18+ filter and adult movies
+        if (kidsFriendly) {
+            checkbox18.setVisibility(View.GONE);
+            includeAdult = false;
+        }
     }
 
     private void initApplyFiltersBtn(View view) {

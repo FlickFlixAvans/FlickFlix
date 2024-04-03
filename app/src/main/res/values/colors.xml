@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="slate_gray">#67737D</color>
+    <color name="slate_gray">#64707A</color>
     <color name="prussian_blue">#0B3446</color>
     <color name="indigo_dye">#114C68</color>
     <color name="cerulean">#2C6C8B</color>
     <color name="seasalt">#F7F9F9</color>
     <color name="imperial_red">#FE464A</color>
+    <color name="cadet_gray">#A5AEB6</color>
 </resources>

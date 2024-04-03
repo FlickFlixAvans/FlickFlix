@@ -5,6 +5,10 @@
     <string name="tdm_signin_explanation">Log in met jouw The Movie DB account om deze app te gebruiken.</string>
     <string name="title_lists">Lijsten</string>
     <string name="title_settings">Settings</string>
+    <string name="log_out_toast">Succesvol uitgelogd.</string>
+    <string name="switch_kids_friendly">Kindvriendelijke modus</string>
+    <string name="switch_kids_friendly_on_toast">Kindvriendelijke modus aan.</string>
+    <string name="switch_kids_friendly_off_toast">Kindvriendelijke modus uit.</string>
     <string name="filters">Filters</string>
     <string name="sorteer_op">Sorteer op</string>
     <string name="titel_a_z">Titel (A-Z)</string>

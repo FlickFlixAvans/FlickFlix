@@ -13,7 +13,7 @@ public class MovieViewModel extends ViewModel {
         repository = new MovieRepository();
     }
 
-    public LiveData<MovieResponse> getNowPlayingMovies(Integer page) {
-        return repository.getNowPlayingMovies(page);
+    public LiveData<MovieResponse> getMovies(Integer page, String sortBy, Boolean includeAdult) {
+        return repository.getMovies(page, sortBy, includeAdult);
     }
 }

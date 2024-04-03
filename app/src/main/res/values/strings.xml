@@ -12,5 +12,15 @@
     <string name="switch_kids_friendly">Kindvriendelijk</string>
     <string name="switch_kids_friendly_on_toast">Kindvriendelijk modus aan.</string>
     <string name="switch_kids_friendly_off_toast">Kindvriendelijk modus uit.</string>
-
+    <string name="filters">Filters</string>
+    <string name="sorteer_op">Sorteer op</string>
+    <string name="titel_a_z">Titel (A-Z)</string>
+    <string name="titel_z_a">Titel (Z-A)</string>
+    <string name="release_datum">Release datum</string>
+    <string name="rating">Rating</string>
+    <string name="_18">18+</string>
+    <string name="verwacht">Verwacht</string>
+    <string name="populariteit">Populariteit</string>
+    <string name="genres">Genres</string>
+    <string name="opslaan">Opslaan</string>
 </resources>

@@ -13,7 +13,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.flickflix.R;
 import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.databinding.ActivityMainBinding;
-import com.example.flickflix.ui.AuthenticateTMDBActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

@@ -14,6 +14,6 @@ public class ListViewModel extends ViewModel {
     }
 
     public LiveData<ListResponse> getLists(Integer page) {
-        return repository.getLists();
+        return repository.getLists(page);
     }
 }

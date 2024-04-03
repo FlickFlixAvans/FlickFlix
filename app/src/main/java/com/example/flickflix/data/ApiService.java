@@ -24,5 +24,5 @@ public interface ApiService {
     Call<GenreResponse> getGenres();
 
     @GET("account/{account_object_id}/lists")
-    Call<ListResponse> getLists();
+    Call<ListResponse> getMovieLists(@Query("page") int page);
 }

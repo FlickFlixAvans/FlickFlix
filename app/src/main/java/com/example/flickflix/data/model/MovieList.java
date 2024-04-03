@@ -2,10 +2,14 @@ package com.example.flickflix.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class List {
+public class MovieList {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("description")
+    private String description;
+
+    // Getter and setter for name
     public String getName() {
         return name;
     }
@@ -14,9 +18,7 @@ public class List {
         this.name = name;
     }
 
-    @SerializedName("description")
-    private String description;
-
+    // Getter and setter for description
     public String getDescription() {
         return description;
     }

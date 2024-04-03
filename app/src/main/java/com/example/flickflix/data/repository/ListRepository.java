@@ -14,33 +14,29 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListRepository {
-    private static final String TAG = ListRepository.class.getSimpleName();
     private final ApiService apiService;
 
     public ListRepository() {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
     }
 
-    public LiveData<ListResponse> getLists() {
-        MutableLiveData<ListResponse> listsLiveData = new MutableLiveData<>();
-        apiService.getLists().enqueue(new Callback<ListResponse>() {
+    public LiveData<ListResponse> getLists(int page) {
+        MutableLiveData<ListResponse> data = new MutableLiveData<>();
+        apiService.getMovieLists(page).enqueue(new Callback<ListResponse>() {
             @Override
             public void onResponse(Call<ListResponse> call, Response<ListResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    listsLiveData.setValue(response.body());
+                    data.setValue(response.body());
                 } else {
-                    listsLiveData.setValue(null);
+                    data.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<ListResponse> call, Throwable throwable) {
-                Log.i(TAG, "Error during get lists request: " + throwable.getMessage());
-
-                listsLiveData.setValue(null);
+            public void onFailure(Call<ListResponse> call, Throwable t) {
+                data.setValue(null);
             }
         });
-
-        return listsLiveData;
+        return data;
     }
 }

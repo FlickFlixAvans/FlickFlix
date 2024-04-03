@@ -13,6 +13,9 @@ public class ListResponse {
     @SerializedName("results")
     private List<List> results;
 
+    @SerializedName("total_pages")
+    private int totalPages;
+
     public List<Genre> getLists() {
         return lists;
     }
@@ -27,5 +30,13 @@ public class ListResponse {
 
     public void setResults(List<List> results) {
         this.results = results;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 }

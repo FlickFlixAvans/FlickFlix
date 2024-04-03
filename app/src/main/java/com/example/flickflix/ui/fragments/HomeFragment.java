@@ -5,10 +5,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -34,12 +40,20 @@ public class HomeFragment extends Fragment {
     MovieListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
+    Button btnOpenFilter;
+    RadioGroup radioGroupSort;
+    DrawerLayout drawerLayout;
+    Button btnApplyFilter;
+    CheckBox checkbox18;
 
     private static final int PAGE_START = 1;
     private int TOTAL_PAGES;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private int currentPage;
+    private int currentPage = PAGE_START;
+
+    private String sortBy = "popularity.desc";
+    private Boolean includeAdult = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -51,14 +65,17 @@ public class HomeFragment extends Fragment {
 
         // Observe genres LiveData from ViewModel
         genreViewModel.getGenres().observe(getViewLifecycleOwner(), genreResponse -> {
-            adapter.setGenres(genreResponse.getGenres());
-            adapter.notifyDataSetChanged();
+            if (genreResponse != null) {
+                adapter.setGenres(genreResponse.getGenres());
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getContext(), "Failed to load genres!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Create adapter
         adapter = new MovieListAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        currentPage = PAGE_START;
 
         return root;
     }
@@ -67,6 +84,20 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Load the filters
+        initFilters(view);
+
+        // Load the apply filters button
+        initApplyFiltersBtn(view);
+
+        // Define the recycler view
+        defineRecyclerView(view);
+
+        // Show loading bar & load the first page
+        loadFirstPage();
+    }
+
+    private void defineRecyclerView(View view) {
         // Define the Recycler View
         recyclerView = view.findViewById(R.id.rv_movies_list);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -101,21 +132,55 @@ public class HomeFragment extends Fragment {
                 return isLoading;
             }
         });
+    }
 
-        // Show loading bar & load the first page
-        adapter.addLoadingFooter();
-        loadNextPage();
+    private void initFilters(View view) {
+        // Filter drawer layout
+        drawerLayout = view.findViewById(R.id.drawer_layout);
+
+        btnOpenFilter = view.findViewById(R.id.btn_open_filter);
+        btnOpenFilter.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+
+        // Sort by
+        radioGroupSort = view.findViewById(R.id.rg_sort);
+        radioGroupSort.setOnCheckedChangeListener((group, checkedId) -> {
+            // Get the tag (sort by) from the selected radio button
+            RadioButton radioButton = view.findViewById(checkedId);
+            sortBy = radioButton.getTag().toString();
+        });
+
+        // Filters
+        checkbox18 = view.findViewById(R.id.cb_18);
+        checkbox18.setOnCheckedChangeListener((buttonView, isChecked) -> includeAdult = isChecked);
+
+        // Selected genres
+    }
+
+    private void initApplyFiltersBtn(View view) {
+        // Apply filters
+        btnApplyFilter = view.findViewById(R.id.apply_filter_button);
+        btnApplyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Reload the page
+                // This will make sure that the selected filters will be applied
+                reloadPage();
+
+                // Close filter navigation drawer
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
     }
 
     private void loadNextPage() {
         Log.i(TAG, "Loading movies page " + currentPage);
 
         // Fetch the now playing movies from the API
-        movieViewModel.getNowPlayingMovies(currentPage).observe(getViewLifecycleOwner(), movieResponse -> {
-            if (movieResponse != null) {
-                adapter.removeLoadingFooter();
-                isLoading = false;
+        movieViewModel.getMovies(currentPage, sortBy, includeAdult).observe(getViewLifecycleOwner(), movieResponse -> {
+            adapter.removeLoadingFooter();
+            isLoading = false;
 
+            if (movieResponse != null) {
                 // Add the fetched movies to the adapter
                 List<Movie> movies = movieResponse.getResults();
                 TOTAL_PAGES = movieResponse.getTotalPages();
@@ -132,6 +197,23 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Failed to load movies!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void loadFirstPage() {
+        adapter.addLoadingFooter();
+        loadNextPage();
+    }
+
+    private void reloadPage() {
+        adapter.clear();
+
+        // Reset page to 1
+        currentPage = PAGE_START;
+        isLoading = true;
+        isLastPage = false;
+
+        // Load first page
+        loadFirstPage();
     }
 
     @Override

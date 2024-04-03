@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.navigation.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Sort -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sorteer_op" />
+
+        <RadioGroup
+            android:id="@+id/rg_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/rb_popularity">
+
+            <RadioButton
+                android:id="@+id/rb_popularity"
+                android:tag="popularity.desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/prussian_blue"
+                android:text="@string/populariteit" />
+            <RadioButton
+                android:tag="title.asc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titel_a_z"
+                android:buttonTint="@color/prussian_blue" />
+            <RadioButton
+                android:tag="title.desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titel_z_a"
+                android:buttonTint="@color/prussian_blue" />
+            <RadioButton
+                android:tag="primary_release_date.desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/release_datum"
+                android:buttonTint="@color/prussian_blue" />
+            <RadioButton
+                android:tag="vote_average.desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:buttonTint="@color/prussian_blue" />
+        </RadioGroup>
+
+        <!-- Filter -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filters"
+            android:layout_marginTop="8dp" />
+
+        <CheckBox
+            android:id="@+id/cb_18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_18"
+            android:buttonTint="@color/prussian_blue" />
+
+        <!-- Genres multi select -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/genres"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tv_select_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:drawable/editbox_background"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:drawablePadding="16dp"
+            android:hint="Select Genres"
+            android:padding="12dp" />
+
+        <!-- Apply -->
+        <Button
+            android:id="@+id/apply_filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/seasalt"
+            android:text="@string/opslaan"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
+</com.google.android.material.navigation.NavigationView>

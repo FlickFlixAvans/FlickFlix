@@ -1,6 +1,6 @@
 package com.example.flickflix.data.response;
 
-import com.example.flickflix.data.model.Genre;
+import com.example.flickflix.model.Genre;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.example.flickflix.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.model.Movie;
+import com.example.flickflix.model.Movie;
 import com.example.flickflix.databinding.FragmentHomeBinding;
+import com.example.flickflix.ui.MovieDetailActivity;
 import com.example.flickflix.ui.adapter.MovieListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
 import com.example.flickflix.viewmodel.GenreViewModel;
@@ -59,6 +61,16 @@ public class HomeFragment extends Fragment {
         adapter = new MovieListAdapter();
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         currentPage = PAGE_START;
+
+        adapter.setOnClickListener(new MovieListAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, Movie mMovie) {
+                Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+                Log.i("HomeFragment", mMovie.getBackdropPath());
+                intent.putExtra("added_movie", mMovie);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }

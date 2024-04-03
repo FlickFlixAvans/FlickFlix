@@ -8,5 +8,9 @@
     <string name="title_lists">Lists</string>
     <string name="title_settings">Settings</string>
     <string name="log_out">Log out</string>
-    <string name="switch_kids_friendly">Kids-friendly</string>
+    <string name="log_out_toast">Succesvol uitgelogd.</string>
+    <string name="switch_kids_friendly">Kindvriendelijk</string>
+    <string name="switch_kids_friendly_on_toast">Kindvriendelijk modus aan.</string>
+    <string name="switch_kids_friendly_off_toast">Kindvriendelijk modus uit.</string>
+
 </resources>

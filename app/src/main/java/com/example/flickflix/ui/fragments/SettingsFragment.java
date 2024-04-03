@@ -23,7 +23,6 @@ public class SettingsFragment extends Fragment {
 
     Button btnLogout;
     SwitchCompat switchKidsFriendly;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -46,11 +45,11 @@ public class SettingsFragment extends Fragment {
             // Check if the switch is toggled on
             if (isChecked) {
                 // Switch is toggled on
-                Toast.makeText(getContext(), "Kids-friendly mode enabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.switch_kids_friendly_on_toast), Toast.LENGTH_SHORT).show();
 
             } else {
                 // Switch is toggled off
-                Toast.makeText(getContext(), "Kids-friendly mode disabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.switch_kids_friendly_off_toast), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -62,7 +61,7 @@ public class SettingsFragment extends Fragment {
             manager.deleteSession();
 
             // Redirect to authenticate activity
-            Toast.makeText(getContext(), "Successfully logged out!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.log_out_toast), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getContext(), AuthenticateTMDBActivity.class));
             requireActivity().finish();
         });

@@ -1,5 +1,7 @@
 package com.example.flickflix.data.model;
 
+import com.example.flickflix.data.deserializer.NullableDateDeserializer;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +17,7 @@ public class Movie {
     @SerializedName("overview")
     private String overview;
     @SerializedName("release_date")
+    @JsonAdapter(NullableDateDeserializer.class)
     private Date releaseDate;
     @SerializedName("adult")
     private Boolean adult;
@@ -128,6 +131,11 @@ public class Movie {
      */
     public String getFormattedReleaseDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        // If release date is unknown
+        if (getReleaseDate() == null) {
+            return "Onbekend";
+        }
 
         return dateFormat.format(getReleaseDate());
     }

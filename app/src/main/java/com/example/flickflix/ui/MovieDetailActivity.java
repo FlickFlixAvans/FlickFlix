@@ -97,12 +97,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+
+                        // Load video
                         if(videoId == null) {
                             youTubePlayerView.setVisibility(View.GONE);
-                            tvMovieTrailerTitle.findViewById(R.id.movie_detail_trailer_title);
-                            tvMovieTrailerTitle.setVisibility(View.GONE);
+                        } else {
+                            youTubePlayer.loadVideo(videoId, 0);
                         }
-                        youTubePlayer.loadVideo(videoId, 0);
                     }
                 });
             }

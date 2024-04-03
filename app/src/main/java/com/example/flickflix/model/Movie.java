@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,8 @@ public class Movie implements Serializable {
     private String backdropPath;
     @SerializedName("runtime")
     private int runtime;
+    @SerializedName("genres")
+    private ArrayList<Genre> genres;
 
     public Integer getId() {
         return id;
@@ -125,6 +128,14 @@ public class Movie implements Serializable {
     public int getRuntime() { return runtime; }
 
     public void setRuntime(int runtime) { this.runtime = runtime; }
+
+    public ArrayList<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
+        this.genres = genres;
+    }
 
     /**
      * Get the full URL to the poster image

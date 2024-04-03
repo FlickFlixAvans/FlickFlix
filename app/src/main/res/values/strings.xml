@@ -1,16 +1,15 @@
 <resources>
     <string name="app_name">FlickFlix</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="sign_in_with_tmdb">Sign in with TMDB</string>
-    <string name="tdm_signin_explanation">To use this app, please sign in with your The Movie DB account.</string>
-    <string name="title_lists">Lists</string>
+    <string name="sign_in_with_tmdb">Log in met TMDB</string>
+    <string name="tdm_signin_explanation">Log in met jouw The Movie DB account om deze app te gebruiken.</string>
+    <string name="title_lists">Lijsten</string>
     <string name="title_settings">Settings</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out">Uitloggen</string>
     <string name="banner">Banner</string>
     <string name="details">Details</string>
     <string name="description">Beschrijving</string>
     <string name="trailer">Trailer</string>
     <string name="reviews">Reviews</string>
+    <string name="minuten">" minuten\n"</string>
 </resources>

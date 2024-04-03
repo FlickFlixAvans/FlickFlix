@@ -67,26 +67,22 @@
         android:paddingStart="10dp"
         android:text="@string/trailer"/>
 
-    <VideoView
-        android:id="@+id/movie_detail_trailer"
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:paddingTop="0dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="0dp"/>
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/movie_detail_review_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="5dp"
-        android:paddingStart="10dp"
-        android:text="@string/reviews"/>
+<!--    <TextView-->
+<!--        android:id="@+id/movie_detail_review_title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingEnd="10dp"-->
+<!--        android:paddingBottom="5dp"-->
+<!--        android:paddingStart="10dp"-->
+<!--        android:text="@string/reviews"/>-->
 
 </LinearLayout>
 </ScrollView>

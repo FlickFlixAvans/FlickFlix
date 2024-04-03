@@ -1,5 +1,6 @@
 package com.example.flickflix.data;
 
+import com.example.flickflix.data.response.VideoResponse;
 import com.example.flickflix.model.Movie;
 import com.example.flickflix.data.response.GenreResponse;
 import com.example.flickflix.data.response.MovieResponse;
@@ -26,4 +27,7 @@ public interface ApiService {
 
     @GET("movie/{movie_id}")
     Call<Movie> getMovie(@Path("movie_id") Integer movieId);
+
+    @GET("movie/{movie_id}/videos")
+    Call<VideoResponse> getVideos(@Path("movie_id") Integer movieId);
 }

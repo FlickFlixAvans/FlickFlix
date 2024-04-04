@@ -15,13 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
 import com.example.flickflix.model.Genre;
 import com.example.flickflix.model.Movie;
+import com.example.flickflix.model.Review;
 import com.example.flickflix.model.Video;
+import com.example.flickflix.ui.adapter.ReviewListAdapter;
 import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
+import com.example.flickflix.viewmodel.ReviewViewModel;
 import com.example.flickflix.viewmodel.VideoViewModel;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -39,10 +44,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     MovieViewModel movieViewModel;
     GenreViewModel genreViewModel;
     VideoViewModel videoViewModel;
+    private RecyclerView mRecyclerView;
+    private ReviewViewModel reviewViewModel;
     TextView tvMovieTrailerTitle;
     private List<Genre> genres = new ArrayList<>();
     private List<Video> videos = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
     private Movie mShareMovie;
+    private ReviewListAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +63,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
+        reviewViewModel = new ViewModelProvider(this).get(ReviewViewModel.class);
+
+        mRecyclerView = findViewById(R.id.rv_movie_detail_review_list);
+        mAdapter = new ReviewListAdapter(this, reviews);
+        mRecyclerView.setAdapter(mAdapter);
+
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         genreViewModel.getGenres().observe(this, genreResponse -> {
             genres = genreResponse.getGenres();
@@ -175,4 +193,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "WhatsApp is not installed.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onReviewAvailable(ArrayList<Review> reviews) {
+        mAdapter.setmReviewList(reviews);
+    }
+
 }

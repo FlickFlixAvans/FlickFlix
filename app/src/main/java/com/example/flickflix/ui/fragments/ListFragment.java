@@ -72,7 +72,11 @@ public class ListFragment extends Fragment {
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage += 1;
-                loadNextPage();
+
+                // Load the next page
+                if (currentPage <= TOTAL_PAGES) {
+                    loadNextPage();
+                }
             }
 
             @Override
@@ -90,7 +94,9 @@ public class ListFragment extends Fragment {
                 return isLoading;
             }
         });
-        loadNextPage();
+
+        // Load first page
+        loadFirstPage();
     }
 
     private void loadNextPage() {
@@ -102,24 +108,29 @@ public class ListFragment extends Fragment {
         String authorization = "Bearer " + accessToken;
 
         listViewModel.getLists(accountId, currentPage, authorization).observe(getViewLifecycleOwner(), listResponse -> {
+            adapter.removeLoadingFooter();
             isLoading = false;
+
             if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
                 TOTAL_PAGES = listResponse.getTotalPages();
 
                 List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
                 adapter.addAll(movieLists);
 
-                if (currentPage <= TOTAL_PAGES) {
-                    if (currentPage != TOTAL_PAGES) {
-                        adapter.addLoadingFooter();
-                    } else {
-                        isLastPage = true;
-                    }
+                if (currentPage != TOTAL_PAGES) {
+                    adapter.addLoadingFooter();
+                } else {
+                    isLastPage = true;
                 }
             } else {
                 Toast.makeText(getContext(), "Failed to get lists data!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void loadFirstPage() {
+        adapter.addLoadingFooter();
+        loadNextPage();
     }
 
     public void onDestroyView() {

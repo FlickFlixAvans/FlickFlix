@@ -43,10 +43,18 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MovieList movieList = results.get(position);
 
-        if (getItemViewType(position) == ITEM) {
-            ListVH listVH = (ListVH) holder;
-            listVH.tvListName.setText(movieList.getName());
-            listVH.tvListDescription.setText(movieList.getDescription());
+        switch (getItemViewType(position)) {
+            case ITEM:
+                final ListVH listVH = (ListVH) holder;
+
+                // Show the info in the UI
+                listVH.tvListName.setText(movieList.getName());
+                listVH.tvListDescription.setText(movieList.getDescription());
+
+                break;
+            case LOADING:
+                // Do nothing
+                break;
         }
     }
 
@@ -60,6 +68,9 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return (position == results.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
+    /**
+     * Helpers
+     */
     public void add(MovieList movieList) {
         results.add(movieList);
         notifyItemInserted(results.size() - 1);
@@ -80,7 +91,9 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         isLoadingAdded = false;
 
         int position = results.size() - 1;
-        if (position >= 0) {
+        MovieList list = getItem(position);
+
+        if (list != null) {
             results.remove(position);
             notifyItemRemoved(position);
         }

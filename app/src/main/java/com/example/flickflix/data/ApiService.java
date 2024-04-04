@@ -6,10 +6,7 @@ import com.example.flickflix.data.response.MovieResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
 import com.example.flickflix.data.response.AccessTokenResponse;
 
-import java.util.HashMap;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;

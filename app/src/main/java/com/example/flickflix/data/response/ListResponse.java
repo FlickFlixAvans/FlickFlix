@@ -1,7 +1,7 @@
 package com.example.flickflix.data.response;
 
 import com.example.flickflix.data.model.Genre;
-import com.example.flickflix.data.model.Movie;
+import com.example.flickflix.data.model.MovieList;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class ListResponse {
     private List<Genre> lists;
 
     @SerializedName("results")
-    private List<List> results;
+    private List<MovieList> results;
 
     @SerializedName("total_pages")
     private int totalPages;
@@ -24,11 +24,11 @@ public class ListResponse {
         this.lists = lists;
     }
 
-    public List<List> getResults() {
+    public List<MovieList> getResults() {
         return results;
     }
 
-    public void setResults(List<List> results) {
+    public void setResults(List<MovieList> results) {
         this.results = results;
     }
 

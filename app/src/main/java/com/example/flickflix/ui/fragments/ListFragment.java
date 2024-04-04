@@ -1,7 +1,6 @@
 package com.example.flickflix.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.flickflix.R;
 import com.example.flickflix.data.SharedPreferencesManager;
-import com.example.flickflix.data.model.Movie;
 import com.example.flickflix.data.model.MovieList;
-import com.example.flickflix.databinding.FragmentHomeBinding;
 import com.example.flickflix.databinding.FragmentListBinding;
 import com.example.flickflix.ui.adapter.ListAdapter;
-import com.example.flickflix.ui.adapter.MovieListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
-import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.ListViewModel;
-import com.example.flickflix.viewmodel.MovieViewModel;
 
 import java.util.List;
 
@@ -96,7 +89,7 @@ public class ListFragment extends Fragment {
                 if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
                     TOTAL_PAGES = listResponse.getTotalPages();
 
-                    List<List> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
+                    List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
                     adapter.addAll(movieLists);
 
                     if (currentPage <= TOTAL_PAGES) {

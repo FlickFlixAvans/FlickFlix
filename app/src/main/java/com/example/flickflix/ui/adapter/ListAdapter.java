@@ -65,8 +65,8 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyItemInserted(results.size() - 1);
     }
 
-    public void addAll(List<List> movieLists) {
-        for (List movieList : movieLists) {
+    public void addAll(List<MovieList> movieLists) {
+        for (MovieList movieList : movieLists) {
             add((MovieList) movieList);
         }
     }

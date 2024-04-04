@@ -60,7 +60,9 @@ dependencies {
     implementation("androidx.browser:browser:1.8.0")
     // Picasso
     implementation("com.squareup.picasso:picasso:2.71828")
-    //Youtube
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
+    // Youtube
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
+    // Markwon
+    implementation("io.noties.markwon:core:4.6.2")
 }

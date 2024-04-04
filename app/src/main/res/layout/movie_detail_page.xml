@@ -88,7 +88,8 @@
             android:id="@+id/rv_movie_detail_review_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
 </ScrollView>

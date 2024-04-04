@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movies_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false" />
+        android:layout_height="match_parent">
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_open_filter"
+            android:text="@string/filters"
+            android:background="@android:color/transparent"
+            app:icon="@drawable/ic_filter"
+            app:iconGravity="start"
+            app:iconSize="22sp"
+            app:iconPadding="6dp"
+            app:iconTint="@color/prussian_blue"
+            android:textColor="@color/prussian_blue"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_open_filter">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_movies_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <!-- Sidebar menu -->
+    <include layout="@layout/filter_navigation_view" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

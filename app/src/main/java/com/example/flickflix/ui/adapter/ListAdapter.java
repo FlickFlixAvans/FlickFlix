@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.model.MovieList;
+import com.example.flickflix.model.MovieList;
 
 import java.util.ArrayList;
 import java.util.List;

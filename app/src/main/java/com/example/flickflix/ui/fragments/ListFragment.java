@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.data.SharedPreferencesManager;
-import com.example.flickflix.data.model.MovieList;
+import com.example.flickflix.model.MovieList;
 import com.example.flickflix.databinding.FragmentListBinding;
 import com.example.flickflix.ui.adapter.ListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;

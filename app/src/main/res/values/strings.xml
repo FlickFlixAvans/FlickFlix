@@ -8,4 +8,7 @@
     <string name="title_lists">Lists</string>
     <string name="title_settings">Settings</string>
     <string name="log_out">Log out</string>
+    <string name="add_list">Lijst aanmaken</string>
+    <string name="name">Naam</string>
+    <string name="description">Omschrijving</string>
 </resources>

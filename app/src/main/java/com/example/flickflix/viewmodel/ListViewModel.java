@@ -13,7 +13,11 @@ public class ListViewModel extends ViewModel {
         repository = new ListRepository();
     }
 
-    public LiveData<ListResponse> getLists(String accountId, int page) {
-        return repository.getLists(accountId, page);
+    public LiveData<ListResponse> getLists(String accountId, int page, String authorization) {
+        return repository.getLists(accountId, page, authorization);
+    }
+
+    public LiveData<Boolean> createList(String name, String description, String authorization) {
+        return repository.createList(name, description, authorization);
     }
 }

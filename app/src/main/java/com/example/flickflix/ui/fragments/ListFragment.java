@@ -19,7 +19,9 @@ import com.example.flickflix.data.model.MovieList;
 import com.example.flickflix.databinding.FragmentListBinding;
 import com.example.flickflix.ui.adapter.ListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
+import com.example.flickflix.ui.dialog.CreateListDialog;
 import com.example.flickflix.viewmodel.ListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class ListFragment extends Fragment {
     ListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
+    FloatingActionButton fabAddList;
+
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
     private boolean isLastPage = false;
@@ -48,11 +52,21 @@ public class ListFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        // Register floating action button
+        fabAddList = binding.fabAddList;
+
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Show the Create List dialog
+        fabAddList.setOnClickListener(v -> {
+            CreateListDialog dialog = new CreateListDialog(getContext(), listViewModel);
+            dialog.show();
+        });
+
         recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
@@ -80,35 +94,33 @@ public class ListFragment extends Fragment {
     }
 
     private void loadNextPage() {
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(getContext());
-        String accountId = sharedPreferencesManager.getAccountId();  // Retrieve the stored account ID
+        SharedPreferencesManager manager = new SharedPreferencesManager(getContext());
+        String accountId = manager.getAccountId();
 
-        if (accountId != null) {
-            listViewModel.getLists(accountId, currentPage).observe(getViewLifecycleOwner(), listResponse -> {
-                isLoading = false;
-                if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
-                    TOTAL_PAGES = listResponse.getTotalPages();
+        // Add the access token to the header
+        String accessToken = manager.getAccessToken();
+        String authorization = "Bearer " + accessToken;
 
-                    List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
-                    adapter.addAll(movieLists);
+        listViewModel.getLists(accountId, currentPage, authorization).observe(getViewLifecycleOwner(), listResponse -> {
+            isLoading = false;
+            if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
+                TOTAL_PAGES = listResponse.getTotalPages();
 
-                    if (currentPage <= TOTAL_PAGES) {
-                        if (currentPage != TOTAL_PAGES) {
-                            adapter.addLoadingFooter();
-                        } else {
-                            isLastPage = true;
-                        }
+                List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
+                adapter.addAll(movieLists);
+
+                if (currentPage <= TOTAL_PAGES) {
+                    if (currentPage != TOTAL_PAGES) {
+                        adapter.addLoadingFooter();
+                    } else {
+                        isLastPage = true;
                     }
-                } else {
-                    Toast.makeText(getContext(), "Failed to load data!", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            Toast.makeText(getContext(), "Account ID not found", Toast.LENGTH_SHORT).show();
-        }
+            } else {
+                Toast.makeText(getContext(), "Failed to get lists data!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-
 
     public void onDestroyView() {
         super.onDestroyView();

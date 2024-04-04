@@ -8,41 +8,43 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.flickflix.data.ApiService;
 import com.example.flickflix.data.RetrofitClient;
+import com.example.flickflix.data.response.ReviewResponse;
 import com.example.flickflix.data.response.VideoResponse;
 import com.example.flickflix.model.Movie;
+import com.example.flickflix.model.Review;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VideoRepository {
+public class ReviewRepository {
     private static final String TAG = VideoRepository.class.getSimpleName();
     private final ApiService apiService;
 
-    public VideoRepository() {
+    public ReviewRepository() {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
     }
 
-    public LiveData<VideoResponse> getVideos(int movieId) {
-        MutableLiveData<VideoResponse> videosLiveData = new MutableLiveData<>();
-        apiService.getVideos(movieId).enqueue(new Callback<VideoResponse>() {
+    public LiveData<ReviewResponse> getReview(int movieId) {
+        MutableLiveData<ReviewResponse> reviewsLiveData = new MutableLiveData<>();
+        apiService.getReview(movieId).enqueue(new Callback<ReviewResponse>() {
             @Override
-            public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
+            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    videosLiveData.setValue(response.body());
+                    reviewsLiveData.setValue(response.body());
                 } else {
-                    videosLiveData.setValue(null);
+                    reviewsLiveData.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<VideoResponse> call, Throwable throwable) {
-                Log.i(TAG, "Error during get videos request: " + throwable.getMessage());
+            public void onFailure(Call<ReviewResponse> call, Throwable throwable) {
+                Log.i(TAG, "Error during get reviews request: " + throwable.getMessage());
 
-                videosLiveData.setValue(null);
+                reviewsLiveData.setValue(null);
             }
         });
 
-        return videosLiveData;
+        return reviewsLiveData;
     }
 }

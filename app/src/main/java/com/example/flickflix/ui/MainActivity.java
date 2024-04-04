@@ -12,7 +12,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.flickflix.R;
 import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.databinding.ActivityMainBinding;
-import com.example.flickflix.ui.AuthenticateTMDBActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLoggedIn() {
         SharedPreferencesManager manager = new SharedPreferencesManager(this);
-        boolean hasSessionId = manager.getSessionId() != null;
+        boolean hasSessionId = manager.getAccessToken() != null;
 
         if (!hasSessionId) {
             Intent intent = new Intent(this, AuthenticateTMDBActivity.class);

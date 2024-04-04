@@ -4,19 +4,23 @@ import com.example.flickflix.data.response.GenreResponse;
 import com.example.flickflix.data.response.ListResponse;
 import com.example.flickflix.data.response.MovieResponse;
 import com.example.flickflix.data.response.RequestTokenResponse;
-import com.example.flickflix.data.response.SessionResponse;
+import com.example.flickflix.data.response.AccessTokenResponse;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    @GET("3/authentication/token/new")
-    Call<RequestTokenResponse> createRequestToken();
+    @POST("4/auth/request_token")
+    Call<RequestTokenResponse> createRequestToken(@Query("redirect_to") String redirectTo);
 
-    @GET("3/authentication/session/new")
-    Call<SessionResponse> createSession(@Query("request_token") String requestToken);
+    @POST("4/auth/access_token")
+    Call<AccessTokenResponse> createAccessToken(@Query("request_token") String requestToken);
 
     @GET("3/movie/now_playing")
     Call<MovieResponse> getNowPlayingMovies(@Query("page") Integer page);

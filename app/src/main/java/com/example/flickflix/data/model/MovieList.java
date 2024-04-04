@@ -9,6 +9,9 @@ public class MovieList {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("account_object_id")
+    private String accountObjectId;
+
     // Getter and setter for name
     public String getName() {
         return name;
@@ -25,5 +28,13 @@ public class MovieList {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAccountObjectId() {
+        return accountObjectId;
+    }
+
+    public void setAccountObjectId(String accountObjectId) {
+        this.accountObjectId = accountObjectId;
     }
 }

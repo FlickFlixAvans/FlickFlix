@@ -13,7 +13,7 @@ public class ListViewModel extends ViewModel {
         repository = new ListRepository();
     }
 
-    public LiveData<ListResponse> getLists(Integer page) {
-        return repository.getLists(page);
+    public LiveData<ListResponse> getLists(String accountId, int page) {
+        return repository.getLists(accountId, page);
     }
 }

@@ -8,21 +8,25 @@ import com.example.flickflix.data.response.SessionResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    @GET("authentication/token/new")
+    @GET("3/authentication/token/new")
     Call<RequestTokenResponse> createRequestToken();
 
-    @GET("authentication/session/new")
+    @GET("3/authentication/session/new")
     Call<SessionResponse> createSession(@Query("request_token") String requestToken);
 
-    @GET("movie/now_playing")
+    @GET("3/movie/now_playing")
     Call<MovieResponse> getNowPlayingMovies(@Query("page") Integer page);
 
-    @GET("genre/movie/list")
+    @GET("3/genre/movie/list")
     Call<GenreResponse> getGenres();
 
-    @GET("account/{account_object_id}/lists")
-    Call<ListResponse> getMovieLists(@Query("page") int page);
+    @GET("4/account/{account_object_id}/lists")
+    Call<ListResponse> getMovieLists(
+            @Path("account_object_id") String accountObjectId,
+            @Query("page") Integer page
+    );
 }

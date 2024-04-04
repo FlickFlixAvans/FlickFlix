@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
+import com.example.flickflix.data.SharedPreferencesManager;
 import com.example.flickflix.data.model.Movie;
 import com.example.flickflix.data.model.MovieList;
 import com.example.flickflix.databinding.FragmentHomeBinding;
@@ -82,24 +83,35 @@ public class ListFragment extends Fragment {
     }
 
     private void loadNextPage() {
-        listViewModel.getLists(currentPage).observe(getViewLifecycleOwner(), listResponse -> {
-            isLoading = false;
-            if (listResponse != null) {
-                TOTAL_PAGES = listResponse.getTotalPages(); // Ensure this method exists
-                List<List> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
-                if (currentPage <= TOTAL_PAGES) {
-                    adapter.addAll(movieLists); // Make sure addAll accepts List<MovieList>
-                    if (currentPage != TOTAL_PAGES) {
-                        adapter.addLoadingFooter();
-                    } else {
-                        isLastPage = true;
+        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(getContext());
+        String accountId = sharedPreferencesManager.getAccountId();  // Retrieve the stored account ID
+
+        if (accountId != null) {
+            listViewModel.getLists(accountId, currentPage).observe(getViewLifecycleOwner(), listResponse -> {
+                isLoading = false;
+                if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
+                    TOTAL_PAGES = listResponse.getTotalPages();
+
+                    List<List> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
+                    adapter.addAll(movieLists);
+
+                    if (currentPage <= TOTAL_PAGES) {
+                        if (currentPage != TOTAL_PAGES) {
+                            adapter.addLoadingFooter();
+                        } else {
+                            isLastPage = true;
+                        }
                     }
+                } else {
+                    Toast.makeText(getContext(), "Failed to load data!", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(getContext(), "Failed to load data!", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        } else {
+            Toast.makeText(getContext(), "Account ID not found", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     public void onDestroyView() {
         super.onDestroyView();

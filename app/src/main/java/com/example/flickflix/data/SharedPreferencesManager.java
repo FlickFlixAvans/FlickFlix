@@ -30,4 +30,21 @@ public class SharedPreferencesManager {
         editor.remove("SESSION_ID");
         editor.commit();
     }
+
+    // New method to save account ID
+    public void saveAccountId(String accountId) {
+        editor.putString("ACCOUNT_ID", accountId);
+        editor.commit();
+    }
+
+    // New method to get account ID
+    public String getAccountId() {
+        return sharedPreferences.getString("ACCOUNT_ID", null);
+    }
+
+    // New method to delete account ID
+    public void deleteAccountId() {
+        editor.remove("ACCOUNT_ID");
+        editor.commit();
+    }
 }

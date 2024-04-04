@@ -1,5 +1,9 @@
 package com.example.flickflix.data;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.flickflix.BuildConfig;
@@ -15,22 +19,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    private static final String BASE_URL = "https://api.themoviedb.org/";
 
     /**
      * Add the API Key as Header to the HTTP Client
      */
     private static OkHttpClient getHttpClient() {
-        return new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @NonNull
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer " + BuildConfig.TMDB_BEARER_TOKEN)
-                        .build();
-                return chain.proceed(newRequest);
-            }
-        }).build();
+        return new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @NonNull
+                    @Override
+                    public Response intercept(@NonNull Chain chain) throws IOException {
+                        Request request = chain.request();
+                        // Log the request URL
+                        Log.d(TAG, "Sending request to URL: " + request.url());
+                        // Log the request headers
+                        Log.d(TAG, "Request Headers: " + request.headers());
+
+                        Request newRequest = request.newBuilder()
+                                .addHeader("Authorization", "Bearer " + BuildConfig.TMDB_BEARER_TOKEN)
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
     }
 
     public static Retrofit getInstance() {

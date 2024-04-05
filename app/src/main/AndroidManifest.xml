@@ -39,6 +39,13 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.MovieDetailActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

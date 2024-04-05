@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.data.SharedPreferencesManager;
-import com.example.flickflix.data.model.MovieList;
+import com.example.flickflix.model.MovieList;
 import com.example.flickflix.databinding.FragmentListBinding;
 import com.example.flickflix.ui.adapter.ListAdapter;
 import com.example.flickflix.ui.adapter.PaginationScrollListener;
+import com.example.flickflix.ui.dialog.CreateListDialog;
 import com.example.flickflix.viewmodel.ListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class ListFragment extends Fragment {
     ListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
+    FloatingActionButton fabAddList;
+
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
     private boolean isLastPage = false;
@@ -48,17 +52,31 @@ public class ListFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        // Register floating action button
+        fabAddList = binding.fabAddList;
+
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Show the Create List dialog
+        fabAddList.setOnClickListener(v -> {
+            CreateListDialog dialog = new CreateListDialog(getContext(), listViewModel);
+            dialog.show();
+        });
+
         recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
                 currentPage += 1;
-                loadNextPage();
+
+                // Load the next page
+                if (currentPage <= TOTAL_PAGES) {
+                    loadNextPage();
+                }
             }
 
             @Override
@@ -76,39 +94,44 @@ public class ListFragment extends Fragment {
                 return isLoading;
             }
         });
-        loadNextPage();
+
+        // Load first page
+        loadFirstPage();
     }
 
     private void loadNextPage() {
-        SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(getContext());
-        String accountId = sharedPreferencesManager.getAccountId();  // Retrieve the stored account ID
+        SharedPreferencesManager manager = new SharedPreferencesManager(getContext());
+        String accountId = manager.getAccountId();
 
-        if (accountId != null) {
-            listViewModel.getLists(accountId, currentPage).observe(getViewLifecycleOwner(), listResponse -> {
-                isLoading = false;
-                if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
-                    TOTAL_PAGES = listResponse.getTotalPages();
+        // Add the access token to the header
+        String accessToken = manager.getAccessToken();
+        String authorization = "Bearer " + accessToken;
 
-                    List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
-                    adapter.addAll(movieLists);
+        listViewModel.getLists(accountId, currentPage, authorization).observe(getViewLifecycleOwner(), listResponse -> {
+            adapter.removeLoadingFooter();
+            isLoading = false;
 
-                    if (currentPage <= TOTAL_PAGES) {
-                        if (currentPage != TOTAL_PAGES) {
-                            adapter.addLoadingFooter();
-                        } else {
-                            isLastPage = true;
-                        }
-                    }
+            if (listResponse != null && listResponse.getResults() != null && !listResponse.getResults().isEmpty()) {
+                TOTAL_PAGES = listResponse.getTotalPages();
+
+                List<MovieList> movieLists = listResponse.getResults(); // Assuming getResults returns List<MovieList>
+                adapter.addAll(movieLists);
+
+                if (currentPage != TOTAL_PAGES) {
+                    adapter.addLoadingFooter();
                 } else {
-                    Toast.makeText(getContext(), "Failed to load data!", Toast.LENGTH_SHORT).show();
+                    isLastPage = true;
                 }
-            });
-        } else {
-            Toast.makeText(getContext(), "Account ID not found", Toast.LENGTH_SHORT).show();
-        }
+            } else {
+                Toast.makeText(getContext(), "Failed to get lists data!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-
+    private void loadFirstPage() {
+        adapter.addLoadingFooter();
+        loadNextPage();
+    }
 
     public void onDestroyView() {
         super.onDestroyView();

@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
-import com.example.flickflix.data.model.Genre;
-import com.example.flickflix.data.model.Movie;
+import com.example.flickflix.model.Genre;
+import com.example.flickflix.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final List<Movie> results = new ArrayList<>();
     private List<Genre> genres = new ArrayList<>();
     private Boolean isLoadingAdded = false;
+    private OnClickListener onClickListener;
 
     @NonNull
     @Override
@@ -67,6 +68,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 // Load movie poster using Picasso
                 String url = mMovie.getFullPosterPath();
                 Picasso.get().load(url).into(movieVH.imgMoviePoster);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (onClickListener != null) {
+                            onClickListener.onClick(position, mMovie);
+                        }
+                    }
+                });
 
                 break;
             case LOADING:
@@ -134,6 +144,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    public void clear() {
+        results.clear();
+        notifyDataSetChanged();
+    }
+
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Movie());
@@ -155,10 +170,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return results.get(position);
     }
 
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, Movie mMovie);
+    }
+
     /**
      * View Holders
      */
-    protected static class MovieVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected static class MovieVH extends RecyclerView.ViewHolder {
         public ImageView imgMoviePoster;
         public TextView tvMovieTitle;
         public TextView tvMovieGenre;
@@ -173,19 +196,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tvMovieGenre = itemView.findViewById(R.id.movie_list_movie_genre);
             tvMovieReleaseDate = itemView.findViewById(R.id.movie_list_release_date);
             tvMovieRating = itemView.findViewById(R.id.movie_list_rating);
-            itemView.setOnClickListener(this);
-        }
-
-        public void onClick(View view) {
-            /*int position = getAdapterPosition();
-
-            Movie mMovie = mMovieList.get(position);
-
-            Intent intent = new Intent(view.getContext(), MovieDetailActivity.class);
-
-            intent.putExtra("added_movie", mMovie);
-
-            view.getContext().startActivity(intent);*/
         }
     }
 

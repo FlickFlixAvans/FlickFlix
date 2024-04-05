@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://api.themoviedb.org/";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/";
 
     /**
      * Add the API Key as Header to the HTTP Client
@@ -25,15 +25,12 @@ public class RetrofitClient {
             @NonNull
             @Override
             public Response intercept(@NonNull Chain chain) throws IOException {
-                Request request = chain.request();
-
-                Request newRequest = request.newBuilder()
+                Request newRequest = chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer " + BuildConfig.TMDB_BEARER_TOKEN)
                         .build();
                 return chain.proceed(newRequest);
             }
-        })
-        .build();
+        }).build();
     }
 
     public static Retrofit getInstance() {

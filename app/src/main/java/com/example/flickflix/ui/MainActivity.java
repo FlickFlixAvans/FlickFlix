@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLoggedIn() {
         SharedPreferencesManager manager = new SharedPreferencesManager(this);
-        boolean hasSessionId = manager.getAccessToken() != null;
+        boolean hasSessionId = manager.getSessionId() != null;
 
         if (!hasSessionId) {
             Intent intent = new Intent(this, AuthenticateTMDBActivity.class);

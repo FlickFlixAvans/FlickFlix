@@ -59,7 +59,7 @@ public class SettingsFragment extends Fragment {
         btnLogout.setOnClickListener(event -> {
             // Delete the session
             SharedPreferencesManager manager = new SharedPreferencesManager(getContext());
-            manager.deleteCredentials();
+            manager.deleteSession();
 
             // Redirect to authenticate activity
             Toast.makeText(getContext(), getString(R.string.log_out_toast), Toast.LENGTH_SHORT).show();

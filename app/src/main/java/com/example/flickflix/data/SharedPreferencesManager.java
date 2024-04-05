@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
     private static final String NAME = "SessionSharedPreferences";
-    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
-    private static final String ACCOUNT_ID = "ACCOUNT_ID";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Context context;
@@ -19,27 +17,17 @@ public class SharedPreferencesManager {
         editor = sharedPreferences.edit();
     }
 
-    public void saveAccessToken(String accessToken) {
-        editor.putString(ACCESS_TOKEN, accessToken);
+    public void saveSession(String sessionId) {
+        editor.putString("SESSION_ID", sessionId);
         editor.commit();
     }
 
-    public String getAccessToken() {
-        return sharedPreferences.getString(ACCESS_TOKEN, null);
+    public String getSessionId() {
+        return sharedPreferences.getString("SESSION_ID", null);
     }
 
-    public void saveAccountId(String accountId) {
-        editor.putString(ACCOUNT_ID, accountId);
-        editor.commit();
-    }
-
-    public String getAccountId() {
-        return sharedPreferences.getString(ACCOUNT_ID, null);
-    }
-
-    public void deleteCredentials() {
-        editor.remove(ACCESS_TOKEN);
-        editor.remove(ACCOUNT_ID);
+    public void deleteSession() {
+        editor.remove("SESSION_ID");
         editor.commit();
     }
 }

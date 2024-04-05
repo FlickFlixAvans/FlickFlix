@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_lists"
-        android:name="com.example.flickflix.ui.fragments.ListFragment"
+        android:name="com.example.flickflix.ui.fragments.ListsFragment"
         android:label="@string/title_lists"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_lists" />
 
     <fragment
         android:id="@+id/navigation_settings"

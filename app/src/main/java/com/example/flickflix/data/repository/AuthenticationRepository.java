@@ -8,9 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.flickflix.data.ApiService;
 import com.example.flickflix.data.RetrofitClient;
 import com.example.flickflix.data.response.RequestTokenResponse;
-import com.example.flickflix.data.response.AccessTokenResponse;
-
-import java.util.HashMap;
+import com.example.flickflix.data.response.SessionResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,9 +22,9 @@ public class AuthenticationRepository {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
     }
 
-    public LiveData<String> getRequestToken(String redirectTo) {
+    public LiveData<String> getRequestToken() {
         MutableLiveData<String> requestTokenLiveData = new MutableLiveData<>();
-        apiService.createRequestToken(redirectTo).enqueue(new Callback<RequestTokenResponse>() {
+        apiService.createRequestToken().enqueue(new Callback<RequestTokenResponse>() {
             @Override
             public void onResponse(Call<RequestTokenResponse> call, Response<RequestTokenResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -47,21 +45,21 @@ public class AuthenticationRepository {
         return requestTokenLiveData;
     }
 
-    public LiveData<AccessTokenResponse> createAccessToken(String requestToken) {
-        MutableLiveData<AccessTokenResponse> sessionLiveData = new MutableLiveData<>();
-        apiService.createAccessToken(requestToken).enqueue(new Callback<AccessTokenResponse>() {
+    public LiveData<String> createSession(String requestToken) {
+        MutableLiveData<String> sessionLiveData = new MutableLiveData<>();
+        apiService.createSession(requestToken).enqueue(new Callback<SessionResponse>() {
             @Override
-            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+            public void onResponse(Call<SessionResponse> call, Response<SessionResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Session created successfully
-                    sessionLiveData.setValue(response.body());
+                    sessionLiveData.setValue(response.body().getSessionId());
                 } else {
                     sessionLiveData.setValue(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<AccessTokenResponse> call, Throwable throwable) {
+            public void onFailure(Call<SessionResponse> call, Throwable throwable) {
                 Log.i(TAG, "Error during session creation: " + throwable.getMessage());
 
                 sessionLiveData.setValue(null);

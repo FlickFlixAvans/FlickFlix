@@ -46,6 +46,6 @@ public interface ApiService {
     @GET("3/movie/{movie_id}/videos")
     Call<VideoResponse> getVideos(@Path("movie_id") Integer movieId);
 
-    @GET("movie/{movie_id}/reviews?page=1")
+    @GET("3/movie/{movie_id}/reviews?page=1")
     Call<ReviewResponse> getReviews(@Path("movie_id") Integer movieId);
 }

@@ -37,7 +37,7 @@ public class VideoRepository {
 
             @Override
             public void onFailure(Call<VideoResponse> call, Throwable throwable) {
-                Log.i(TAG, "Error during get genres request: " + throwable.getMessage());
+                Log.i(TAG, "Error during get videos request: " + throwable.getMessage());
 
                 videosLiveData.setValue(null);
             }

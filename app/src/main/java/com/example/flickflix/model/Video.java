@@ -21,7 +21,7 @@ public class Video implements Serializable {
         this.key = key;
     }
 
-    public Boolean getOfficial() {
+    public Boolean isOfficial() {
         return official;
     }
 

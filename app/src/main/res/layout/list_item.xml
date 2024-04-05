@@ -18,18 +18,28 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:textStyle="bold"
+<<<<<<< Updated upstream
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/btn_icon"/>
+=======
+            android:layout_margin="10dp"
+            />
+>>>>>>> Stashed changes
 
         <TextView
             android:id="@+id/tv_list_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+<<<<<<< Updated upstream
             android:layout_marginTop="5dp"
             android:layout_below="@id/tv_list_name"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/btn_icon"/>
+=======
+            android:layout_margin="10sp"
+            />
+>>>>>>> Stashed changes
 
         <ImageButton
             android:id="@+id/btn_icon"

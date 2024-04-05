@@ -44,6 +44,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ReviewViewModel reviewViewModel;
     private List<Video> videos = new ArrayList<>();
     private Movie mShareMovie;
+    private String mShareVideo;
     private ReviewListAdapter mReviewListAdapter;
 
     @Override
@@ -126,6 +127,26 @@ public class MovieDetailActivity extends AppCompatActivity {
         return details.toString();
     }
 
+    private String getMovieDetailsShare(Movie mMovie, String mShareVideo) {
+        StringBuilder details = new StringBuilder();
+
+        details.append(mMovie.getTitle());
+        details.append("\n");
+        details.append(mMovie.getRuntime());
+        details.append(getString(R.string.minuten));
+        details.append(getGenresForMovie(mMovie));
+        details.append("\nRelease: ");
+        details.append(mMovie.getFormattedReleaseDate());
+        details.append("\nRating: ");
+        details.append(mMovie.getFormattedVoteAverage());
+        details.append("/10\n");
+        details.append(mMovie.getOverview());
+        details.append("\nhttps://www.youtube.com/watch?v=");
+        details.append(mShareVideo);
+
+        return details.toString();
+    }
+
     private String getGenresForMovie(Movie movie) {
         StringBuilder genreStringBuilder = new StringBuilder();
 
@@ -160,6 +181,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         for (Video video : videos) {
                             if (video.isOfficial() && video.getType().equals("Trailer")) {
                                 videoId = video.getKey();
+                                mShareVideo = video.getKey();
                                 break;
                             }
                         }
@@ -179,7 +201,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void shareMovieDetails() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getMovieDetails(mShareMovie));
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getMovieDetailsShare(mShareMovie, mShareVideo));
         sendIntent.setType("text/plain");
         sendIntent.setPackage("com.whatsapp");
 

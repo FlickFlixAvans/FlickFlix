@@ -15,15 +15,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickflix.R;
+import com.example.flickflix.model.Genre;
 import com.example.flickflix.model.Movie;
 import com.example.flickflix.model.Video;
-import com.example.flickflix.ui.adapter.ReviewListAdapter;
+import com.example.flickflix.viewmodel.GenreViewModel;
 import com.example.flickflix.viewmodel.MovieViewModel;
-import com.example.flickflix.viewmodel.ReviewViewModel;
 import com.example.flickflix.viewmodel.VideoViewModel;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -39,12 +37,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView tvMovieDetails;
     TextView tvMovieDescription;
     MovieViewModel movieViewModel;
+    GenreViewModel genreViewModel;
     VideoViewModel videoViewModel;
-    private RecyclerView mRecyclerView;
-    private ReviewViewModel reviewViewModel;
+    TextView tvMovieTrailerTitle;
+    private List<Genre> genres = new ArrayList<>();
     private List<Video> videos = new ArrayList<>();
     private Movie mShareMovie;
-    private ReviewListAdapter mReviewListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,17 +52,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "onCreate");
 
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        genreViewModel = new ViewModelProvider(this).get(GenreViewModel.class);
         videoViewModel = new ViewModelProvider(this).get(VideoViewModel.class);
-        reviewViewModel = new ViewModelProvider(this).get(ReviewViewModel.class);
 
-        // Define Reviews recycler view adapter
-        mRecyclerView = findViewById(R.id.rv_movie_detail_review_list);
-        mReviewListAdapter = new ReviewListAdapter(this);
-        mRecyclerView.setAdapter(mReviewListAdapter);
-
-        RecyclerView.LayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        genreViewModel.getGenres().observe(this, genreResponse -> {
+            genres = genreResponse.getGenres();
+        });
 
         imgMovieBanner = findViewById(R.id.movie_detail_banner);
         tvMovieDetails = findViewById(R.id.movie_detail_detail);
@@ -88,10 +81,33 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
 
         // Load YouTube video
-        loadYoutubeTrailer(mMovie);
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
 
-        // Fetch reviews
-        fetchMovieReviews(mMovie);
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                videoViewModel.getVideos(mMovie.getId()).observe(MovieDetailActivity.this, videoResponse -> {
+                    videos = videoResponse.getVideos(mMovie.getId());
+                    if (!videos.isEmpty()) {
+                        String videoId = null;
+                        for (Video video : videos) {
+                            if (video.getOfficial() == true && video.getType().equals("Trailer")) {
+                                videoId = video.getKey();
+                                break;
+                            }
+                        }
+
+                        // Load video
+                        if(videoId == null) {
+                            youTubePlayerView.setVisibility(View.GONE);
+                        } else {
+                            youTubePlayer.loadVideo(videoId, 0);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -146,36 +162,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         return genreStringBuilder.toString();
     }
 
-    private void loadYoutubeTrailer(Movie mMovie) {
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
-        getLifecycle().addObserver(youTubePlayerView);
-
-        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                videoViewModel.getVideos(mMovie.getId()).observe(MovieDetailActivity.this, videoResponse -> {
-                    videos = videoResponse.getVideos(mMovie.getId());
-                    if (!videos.isEmpty()) {
-                        String videoId = null;
-                        for (Video video : videos) {
-                            if (video.isOfficial() && video.getType().equals("Trailer")) {
-                                videoId = video.getKey();
-                                break;
-                            }
-                        }
-
-                        // Load video
-                        if(videoId == null) {
-                            youTubePlayerView.setVisibility(View.GONE);
-                        } else {
-                            youTubePlayer.loadVideo(videoId, 0);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
     private void shareMovieDetails() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -188,12 +174,5 @@ public class MovieDetailActivity extends AppCompatActivity {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, "WhatsApp is not installed.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void fetchMovieReviews(Movie movie) {
-        reviewViewModel.getReviews(movie.getId()).observe(this, reviewResponse -> {
-            // Update the Movie Review adapter with retrieved reviews
-            mReviewListAdapter.seMReviewList(reviewResponse.getResults());
-        });
     }
 }

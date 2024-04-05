@@ -28,7 +28,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         switch (viewType) {
             case ITEM:
-                View mItemView = inflater.inflate(R.layout.list_item, parent, false);
+                View mItemView = inflater.inflate(R.layout.list_list_item, parent, false);
                 viewHolder = new ListVH(mItemView);
                 break;
             case LOADING:
